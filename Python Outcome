@@ -1,0 +1,32 @@
+import os
+from embedchain  import App
+from dotenv import load_dotenv
+import streamlit as st
+from PyPDF2 import PdfReader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+# from langchain.chains.question_answering import load_qa_chain
+# from langchain.llms import OpenAI
+# from langchain.callbacks import get_openai_callback
+
+
+os.environ["OPENAI_API_KEY"] = "sk-ZS2jpmaFuNkG5jWkxA7vT3BlbkFJ76q6qjqPSRA2ZucFwK6nmwX"
+
+chat_bot = App()
+
+chat_bot.add("https://www.discoverboating.com/resources/running-out-of-gas")
+chat_bot.add("https://www.chubb.com/us-en/individuals-families/resources/12-safety-tips-for-recreational-boaters.html")
+# chat_bot.add("https://en.wikipedia.org/wiki/Capsizing#:~:text=Capsize%20may%20result%20from%20broaching,boats%2C%20from%20turning%20too%20fast.&text=If%20a%20capsized%20vessel%20has,it%20is%20not%20stable%20inverted")
+chat_bot.add("https://timesofindia.indiatimes.com/city/madurai/3-fishers-missing-after-boat-capsizes-mid-sea/articleshow/104057345.cms?from=mdr")
+
+# chat_bot.add("D:\ChatBot\embedchain\TIJER2306008.pdf")
+# chat_bot.add("D:\ChatBot\embedchain\57.Accident Analysis of River Boats.pdf")
+quer = ""
+
+st.title("Know your boats")
+prompt = st.text_input("Enter your query")
+
+if st.button("Generate") and prompt:
+    response = chat_bot.query(prompt)
+    st.write(response)
